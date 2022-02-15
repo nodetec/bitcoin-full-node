@@ -8,6 +8,8 @@ You will need:
 - Minimum 1TB external drive (for storing the blockchain)
 - Non metered internet connection
 
+[Link parts needed](https://www.amazon.com/hz/wishlist/ls/1FSSY7WAANYXG?ref_=wl_share)
+
 ## OS
 
 We need an OS, and the best one that I could think of is the official OS developed by the people who make the Raspberry Pi.
@@ -25,7 +27,7 @@ When installing you will also have the option to configure a few settings when c
 
 I recommend at least checking the box to automatically enable ssh.
 
-When you're ready click the write button and wait for the OS to install.
+Make sure you have your SD card inserted into the computer, and when you're ready click the write button and wait for the OS to install.
 
 ## Interacting with the Pi
 
