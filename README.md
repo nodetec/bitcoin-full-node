@@ -274,6 +274,12 @@ bitcoind --help
 bitcoind -conf=/home/chris/.bitcoin/bitcoin.conf -daemon
 ```
 
+### Stopping bitcoind
+
+```
+bitcoin-cli stop
+```
+
 This will start your bitcoin node and begin downloading the entire blockchain into the `/mnt/bitcoin` directory
 
 ## References
