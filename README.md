@@ -128,7 +128,7 @@ vim /etc/fstab
 ```
 
 ```
-UUID=XXXX_XXXX  /mnt/bitcoin exfat   nofail,uid=pi,gid=pi   0   0
+UUID=XXXX-XXXX  /mnt/bitcoin exfat   nofail,uid=pi,gid=pi   0   0
 ```
 
 After you reboot your node the drive should be mounted to `/mnt/bitcoin`
