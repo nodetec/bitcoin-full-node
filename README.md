@@ -101,6 +101,7 @@ Set all future permissions for the mount point to pi user and group:
 sudo setfacl -Rdm g:pi:rwx /mnt/bitcoin
 sudo setfacl -Rm g:pi:rwx /mnt/bitcoin
 ```
+**NOTE:** the above may fail, just move on with the installation since this may not be necessary anyway
 
 We don't want to have to mount our drive every time we reboot so we'll be adding an entry to the `fstab` file so our OS knows to mount the drive on boot.
 
