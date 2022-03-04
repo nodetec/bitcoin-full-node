@@ -66,7 +66,7 @@ We will do the following:
 
 - `n`: add a new partition (press `Enter` to proceed with using the whole drive)
 
-- `y`: confirm and remove signature
+- `y`: confirm and remove signature (NOTE this may not be necessary if there is no signature to remove)
 
 - `w`: write table to disk and exit
 
