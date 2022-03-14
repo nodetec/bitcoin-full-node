@@ -177,7 +177,7 @@ All of the dependencies can be found in the `build-unix.md` file located in the 
 - Build requirements:
 
 ```
-sudo apt install build-essential libtool autotools-dev automake pkg-config bsdmainutils
+sudo apt install build-essential libtool autotools-dev automake pkg-config bsdmainutils python3
 
 sudo apt install libevent-dev libboost-dev libboost-test-dev
 ```
@@ -197,7 +197,7 @@ sudo apt install libminiupnpc-dev libnatpmp-dev
 - ZMQ dependencies, used to get events out of the daemon (useful for things like block explorers):
 
 ```
-sudo apt-get install libzmq3-dev
+sudo apt install libzmq3-dev
 ```
 
 - User-Space, Statically Defined Tracing (USDT) dependencies:
@@ -211,13 +211,13 @@ sudo apt install systemtap-sdt-dev
 **NOTE:** To build without GUI pass `--without-gui`
 
 ```
-sudo apt-get install libqt5gui5 libqt5core5a libqt5dbus5 qttools5-dev qttools5-dev-tools
+sudo apt install libqt5gui5 libqt5core5a libqt5dbus5 qttools5-dev qttools5-dev-tools
 ```
 
 - For QR Code Support:
 
 ```
-sudo apt-get install libqrencode-dev
+sudo apt install libqrencode-dev
 ```
 
 ### Generate Build Scripts
