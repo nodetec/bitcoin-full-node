@@ -14,14 +14,14 @@ You will need:
 
 We need an OS, and the best one that I could think of is the official OS developed by the people who make the Raspberry Pi.
 
-[Raspberry Pi OS Docs](https://www.raspberrypi.com/documentation/computers/getting-started.html) 
-[Raspberry Pi Imager](https://www.raspberrypi.com/software/) is the recommended way to install Raspberry Pi OS. 
+[Raspberry Pi OS Docs](https://www.raspberrypi.com/documentation/computers/getting-started.html)
+[Raspberry Pi Imager](https://www.raspberrypi.com/software/) is the recommended way to install Raspberry Pi OS.
 
 ```
 sudo apt install rpi-imager
 ```
 
-I recommend installing the `Raspberry Pi OS (64-bit)` for now you can find that in the *other* section.
+I recommend installing the `Raspberry Pi OS (64-bit)` for now you can find that in the _other_ section.
 
 When installing you will also have the option to configure a few settings when clicking the gear in the bottom right.
 
@@ -34,6 +34,8 @@ Make sure you have your SD card inserted into the computer, and when you're read
 You can use the Pi same as any other computer, so if you want to just plugin a mouse, keyboard and monitor that's an option. If you do things this way you will have access to graphical various tools.
 
 Another option is to ssh into the Pi from another computer. Which is what I will be doing and this tutorial will assume you are doing everything via SSH. You can obviously still easily follow along with your graphical interface by just opening up a terminal.
+
+**NOTE:** Make sure to change `<username>` to your username, e.g., `pi`
 
 ## Format external Drive
 
@@ -66,7 +68,7 @@ We will do the following:
 
 - `n`: add a new partition (press `Enter` to proceed with using the whole drive)
 
-- `y`: confirm and remove signature (NOTE this may not be necessary if there is no signature to remove)
+- `y`: confirm and remove signature (**NOTE:** This may not be necessary if there is no signature to remove)
 
 - `w`: write table to disk and exit
 
@@ -82,26 +84,24 @@ sudo mkfs.exfat /dev/sda1
 
 We will now need to mount the drive and also make sure it automatically mounts when we reboot. We'll also change the permissions to allow the user read, write and execute access.
 
-**NOTE** change `pi` to your username
-
-
 ```
 sudo mkdir /mnt/bitcoin
 
-sudo chown -R pi:pi /mnt/bitcoin # change pi to your username
+sudo chown -R <username>:<username> /mnt/bitcoin
 
 sudo chmod -R 775 /mnt/bitcoin
 
 sudo mount /dev/sda1 /mnt/bitcoin
 ```
 
-Set all future permissions for the mount point to pi user and group:
+Set all future permissions for the mount point to your username and group:
 
 ```
-sudo setfacl -Rdm g:pi:rwx /mnt/bitcoin
-sudo setfacl -Rm g:pi:rwx /mnt/bitcoin
+sudo setfacl -Rdm g:<username>:rwx /mnt/bitcoin
+sudo setfacl -Rm g:<username>:rwx /mnt/bitcoin
 ```
-**NOTE:** the above may fail, just move on with the installation since this may not be necessary anyway
+
+**NOTE:** The above may fail, just move on with the installation since this may not be necessary anyway
 
 We don't want to have to mount our drive every time we reboot so we'll be adding an entry to the `fstab` file so our OS knows to mount the drive on boot.
 
@@ -111,7 +111,7 @@ First get the UUID id:
 sudo blkid | grep sda1
 ```
 
-**NOTE** if you have other drives installed this may be sdb1 or sbc1 etc..
+**NOTE:** If you have other drives installed this may be sdb1 or sbc1 etc..
 
 You should see an output that looks like:
 
@@ -128,7 +128,7 @@ vim /etc/fstab
 ```
 
 ```
-UUID=XXXX-XXXX  /mnt/bitcoin exfat   nofail,uid=pi,gid=pi   0   0
+UUID=XXXX-XXXX  /mnt/bitcoin exfat   nofail,uid=<username>,gid=<username>   0   0
 ```
 
 After you reboot your node the drive should be mounted to `/mnt/bitcoin`
@@ -140,7 +140,7 @@ TODO: explain what bitcoin core is
 ### Clone the repository:
 
 ```
-git clone https://github.com/bitcoin/bitcoin.git 
+git clone https://github.com/bitcoin/bitcoin.git
 ```
 
 TODO: checkout stable version
@@ -191,7 +191,7 @@ sudo apt install systemtap-sdt-dev
 
 - GUI dependencies (if you installed your RpiOS with a Desktop):
 
-**NOTE** To build without GUI pass `--without-gui`
+**NOTE:** To build without GUI pass `--without-gui`
 
 ```
 sudo apt-get install libqt5gui5 libqt5core5a libqt5dbus5 qttools5-dev qttools5-dev-tools
@@ -213,17 +213,17 @@ Now we should be able to generate the build scripts, if you missed any dependenc
 
 Configure:
 
-**NOTE** The extra arguments are needed since we are using Berkeley DB.
+**NOTE:** The extra arguments are needed since we are using Berkeley DB.
 
 ```
-export BDB_PREFIX='/home/pi/Repos/bitcoin/db4'
+export BDB_PREFIX='/home/<username>/Repos/bitcoin/db4'
 
 ./configure BDB_LIBS="-L${BDB_PREFIX}/lib -ldb_cxx-4.8" BDB_CFLAGS="-I${BDB_PREFIX}/include"
 ```
 
 ### Compile & Install
 
-- Compile (This could take about an hour): 
+- Compile (This could take about an hour):
 
 ```
 make
@@ -258,7 +258,7 @@ touch ~/.bitcoin/bitcoin.conf
 - Add the following to your config
 
 ```
-rpcuser=pi
+rpcuser=<username>
 rpcpassword=CHANGE_THIS
 maxconnections=15
 datadir=/mnt/bitcoin
@@ -275,10 +275,12 @@ bitcoind --help
 
 ### Tor (Optional)
 
+TODO: Finish this section
+
 ### Running bitcoind
 
 ```
-bitcoind -conf=/home/pi/.bitcoin/bitcoin.conf -daemon
+bitcoind -conf=/home/<username>/.bitcoin/bitcoin.conf -daemon
 ```
 
 ### Stopping bitcoind
@@ -291,10 +293,10 @@ This will start your bitcoin node and begin downloading the entire blockchain in
 
 ## References
 
-- [Raspberry Pi Guide](https://www.htpcguides.com/properly-mount-usb-storage-raspberry-pi/) 
+- [Raspberry Pi Guide](https://www.htpcguides.com/properly-mount-usb-storage-raspberry-pi/)
 
-- [Mastering Bitcoin]() 
+- [Mastering Bitcoin]()
 
 TODO: check out tor setup
-- [Tor setup](https://8bitcoin.medium.com/how-to-run-a-bitcoin-full-node-over-tor-on-an-ubuntu-linux-virtual-machine-bdd7e9415a70) 
 
+- [Tor setup](https://8bitcoin.medium.com/how-to-run-a-bitcoin-full-node-over-tor-on-an-ubuntu-linux-virtual-machine-bdd7e9415a70)
