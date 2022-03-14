@@ -10,18 +10,35 @@ You will need:
 
 [Link parts needed](https://www.amazon.com/hz/wishlist/ls/1FSSY7WAANYXG?ref_=wl_share)
 
+## Extra Parts
+
+You can also get an LCD Screen for your node:
+
+- [LCD Screen](https://www.amazon.com/TFT-LCD-Raspberry-Controller-Interface/dp/B08KZXSJW2/ref=sr_1_1?crid=24FW93IAB660A&keywords=3.5+inch+Touch+Screen+TFT+LCD+for+Raspberry+Pi+4B%2F3B%2B%2F3B%2F2B%2FZero%2FZero+W%2FZero+WH+480x320+Pixel+XPT2046+Controller+SPI+Interface&qid=1647235055&s=electronics&sprefix=3.5+inch+touch+screen+tft+lcd+for+raspberry+pi+4b%2F3b%2B%2F3b%2F2b%2Fzero%2Fzero+w%2Fzero+wh+480x320+pixel+xpt2046+controller+spi+interface%2Celectronics%2C104&sr=1-1)
+- [LCD Screen with Case](https://www.amazon.com/gp/product/B07WQW6H9S/ref=ppx_yo_dt_b_search_asin_title?ie=UTF8&psc=1)
+
+Instead of using the standard Raspberry Pi 4 case or the LCD screen case, you can get a [Crypto Cloaks](https://www.cryptocloaks.com/) node shell.
+
+Here are links to some node shells:
+
+- [Lightning Shell](https://www.cryptocloaks.com/product/lightningshell/)
+- [Casa Shell](https://www.cryptocloaks.com/product/casa/)
+- [myNode Shell](https://www.cryptocloaks.com/product/mynodeshell/)
+
+**NOTE:** If you're getting an LCD screen and a [Crypto Cloaks](https://www.cryptocloaks.com/) node shell, make sure the shell supports the LCD screen.
+
 ## OS
 
 We need an OS, and the best one that I could think of is the official OS developed by the people who make the Raspberry Pi.
 
-[Raspberry Pi OS Docs](https://www.raspberrypi.com/documentation/computers/getting-started.html) 
-[Raspberry Pi Imager](https://www.raspberrypi.com/software/) is the recommended way to install Raspberry Pi OS. 
+[Raspberry Pi OS Docs](https://www.raspberrypi.com/documentation/computers/getting-started.html)
+[Raspberry Pi Imager](https://www.raspberrypi.com/software/) is the recommended way to install Raspberry Pi OS.
 
 ```
 sudo apt install rpi-imager
 ```
 
-I recommend installing the `Raspberry Pi OS (64-bit)` for now you can find that in the *other* section.
+I recommend installing the `Raspberry Pi OS (64-bit)` for now you can find that in the _other_ section.
 
 When installing you will also have the option to configure a few settings when clicking the gear in the bottom right.
 
@@ -34,6 +51,8 @@ Make sure you have your SD card inserted into the computer, and when you're read
 You can use the Pi same as any other computer, so if you want to just plugin a mouse, keyboard and monitor that's an option. If you do things this way you will have access to graphical various tools.
 
 Another option is to ssh into the Pi from another computer. Which is what I will be doing and this tutorial will assume you are doing everything via SSH. You can obviously still easily follow along with your graphical interface by just opening up a terminal.
+
+**NOTE:** Make sure to change `<username>` to your username, e.g., `pi`
 
 ## Format external Drive
 
@@ -66,7 +85,7 @@ We will do the following:
 
 - `n`: add a new partition (press `Enter` to proceed with using the whole drive)
 
-- `y`: confirm and remove signature (NOTE this may not be necessary if there is no signature to remove)
+- `y`: confirm and remove signature (**NOTE:** This may not be necessary if there is no signature to remove)
 
 - `w`: write table to disk and exit
 
@@ -82,26 +101,24 @@ sudo mkfs.exfat /dev/sda1
 
 We will now need to mount the drive and also make sure it automatically mounts when we reboot. We'll also change the permissions to allow the user read, write and execute access.
 
-**NOTE** change `pi` to your username
-
-
 ```
 sudo mkdir /mnt/bitcoin
 
-sudo chown -R pi:pi /mnt/bitcoin # change pi to your username
+sudo chown -R <username>:<username> /mnt/bitcoin
 
 sudo chmod -R 775 /mnt/bitcoin
 
 sudo mount /dev/sda1 /mnt/bitcoin
 ```
 
-Set all future permissions for the mount point to pi user and group:
+Set all future permissions for the mount point to your username and group:
 
 ```
-sudo setfacl -Rdm g:pi:rwx /mnt/bitcoin
-sudo setfacl -Rm g:pi:rwx /mnt/bitcoin
+sudo setfacl -Rdm g:<username>:rwx /mnt/bitcoin
+sudo setfacl -Rm g:<username>:rwx /mnt/bitcoin
 ```
-**NOTE:** the above may fail, just move on with the installation since this may not be necessary anyway
+
+**NOTE:** The above may fail, just move on with the installation since this may not be necessary anyway
 
 We don't want to have to mount our drive every time we reboot so we'll be adding an entry to the `fstab` file so our OS knows to mount the drive on boot.
 
@@ -111,7 +128,7 @@ First get the UUID id:
 sudo blkid | grep sda1
 ```
 
-**NOTE** if you have other drives installed this may be sdb1 or sbc1 etc..
+**NOTE:** If you have other drives installed this may be sdb1 or sbc1 etc..
 
 You should see an output that looks like:
 
@@ -128,7 +145,7 @@ vim /etc/fstab
 ```
 
 ```
-UUID=XXXX-XXXX  /mnt/bitcoin exfat   nofail,uid=pi,gid=pi   0   0
+UUID=XXXX-XXXX  /mnt/bitcoin exfat   nofail,uid=<username>,gid=<username>   0   0
 ```
 
 After you reboot your node the drive should be mounted to `/mnt/bitcoin`
@@ -140,7 +157,7 @@ TODO: explain what bitcoin core is
 ### Clone the repository:
 
 ```
-git clone https://github.com/bitcoin/bitcoin.git 
+git clone https://github.com/bitcoin/bitcoin.git
 ```
 
 TODO: checkout stable version
@@ -160,7 +177,7 @@ All of the dependencies can be found in the `build-unix.md` file located in the 
 - Build requirements:
 
 ```
-sudo apt install build-essential libtool autotools-dev automake pkg-config bsdmainutils
+sudo apt install build-essential libtool autotools-dev automake pkg-config bsdmainutils python3
 
 sudo apt install libevent-dev libboost-dev libboost-test-dev
 ```
@@ -180,7 +197,7 @@ sudo apt install libminiupnpc-dev libnatpmp-dev
 - ZMQ dependencies, used to get events out of the daemon (useful for things like block explorers):
 
 ```
-sudo apt-get install libzmq3-dev
+sudo apt install libzmq3-dev
 ```
 
 - User-Space, Statically Defined Tracing (USDT) dependencies:
@@ -191,16 +208,16 @@ sudo apt install systemtap-sdt-dev
 
 - GUI dependencies (if you installed your RpiOS with a Desktop):
 
-**NOTE** To build without GUI pass `--without-gui`
+**NOTE:** To build without GUI pass `--without-gui`
 
 ```
-sudo apt-get install libqt5gui5 libqt5core5a libqt5dbus5 qttools5-dev qttools5-dev-tools
+sudo apt install libqt5gui5 libqt5core5a libqt5dbus5 qttools5-dev qttools5-dev-tools
 ```
 
 - For QR Code Support:
 
 ```
-sudo apt-get install libqrencode-dev
+sudo apt install libqrencode-dev
 ```
 
 ### Generate Build Scripts
@@ -213,17 +230,17 @@ Now we should be able to generate the build scripts, if you missed any dependenc
 
 Configure:
 
-**NOTE** The extra arguments are needed since we are using Berkeley DB.
+**NOTE:** The extra arguments are needed since we are using Berkeley DB.
 
 ```
-export BDB_PREFIX='/home/pi/Repos/bitcoin/db4'
+export BDB_PREFIX='/home/<username>/Repos/bitcoin/db4'
 
 ./configure BDB_LIBS="-L${BDB_PREFIX}/lib -ldb_cxx-4.8" BDB_CFLAGS="-I${BDB_PREFIX}/include"
 ```
 
 ### Compile & Install
 
-- Compile (This could take about an hour): 
+- Compile (This could take about an hour):
 
 ```
 make
@@ -258,7 +275,7 @@ touch ~/.bitcoin/bitcoin.conf
 - Add the following to your config
 
 ```
-rpcuser=pi
+rpcuser=<username>
 rpcpassword=CHANGE_THIS
 maxconnections=15
 datadir=/mnt/bitcoin
@@ -275,10 +292,12 @@ bitcoind --help
 
 ### Tor (Optional)
 
+TODO: Finish this section
+
 ### Running bitcoind
 
 ```
-bitcoind -conf=/home/pi/.bitcoin/bitcoin.conf -daemon
+bitcoind -conf=/home/<username>/.bitcoin/bitcoin.conf -daemon
 ```
 
 ### Stopping bitcoind
@@ -291,10 +310,10 @@ This will start your bitcoin node and begin downloading the entire blockchain in
 
 ## References
 
-- [Raspberry Pi Guide](https://www.htpcguides.com/properly-mount-usb-storage-raspberry-pi/) 
+- [Raspberry Pi Guide](https://www.htpcguides.com/properly-mount-usb-storage-raspberry-pi/)
 
-- [Mastering Bitcoin]() 
+- [Mastering Bitcoin]()
 
 TODO: check out tor setup
-- [Tor setup](https://8bitcoin.medium.com/how-to-run-a-bitcoin-full-node-over-tor-on-an-ubuntu-linux-virtual-machine-bdd7e9415a70) 
 
+- [Tor setup](https://8bitcoin.medium.com/how-to-run-a-bitcoin-full-node-over-tor-on-an-ubuntu-linux-virtual-machine-bdd7e9415a70)
