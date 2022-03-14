@@ -10,6 +10,23 @@ You will need:
 
 [Link parts needed](https://www.amazon.com/hz/wishlist/ls/1FSSY7WAANYXG?ref_=wl_share)
 
+## Extra Parts
+
+You can also get an LCD Screen for your node:
+
+- [LCD Screen](https://www.amazon.com/TFT-LCD-Raspberry-Controller-Interface/dp/B08KZXSJW2/ref=sr_1_1?crid=24FW93IAB660A&keywords=3.5+inch+Touch+Screen+TFT+LCD+for+Raspberry+Pi+4B%2F3B%2B%2F3B%2F2B%2FZero%2FZero+W%2FZero+WH+480x320+Pixel+XPT2046+Controller+SPI+Interface&qid=1647235055&s=electronics&sprefix=3.5+inch+touch+screen+tft+lcd+for+raspberry+pi+4b%2F3b%2B%2F3b%2F2b%2Fzero%2Fzero+w%2Fzero+wh+480x320+pixel+xpt2046+controller+spi+interface%2Celectronics%2C104&sr=1-1)
+- [LCD Screen with Case](https://www.amazon.com/gp/product/B07WQW6H9S/ref=ppx_yo_dt_b_search_asin_title?ie=UTF8&psc=1)
+
+Instead of using the standard Raspberry Pi 4 case or the LCD screen case, you can get a [Crypto Cloaks](https://www.cryptocloaks.com/) node shell.
+
+Here are links to some node shells:
+
+- [Lightning Shell](https://www.cryptocloaks.com/product/lightningshell/)
+- [Casa Shell](https://www.cryptocloaks.com/product/casa/)
+- [myNode Shell](https://www.cryptocloaks.com/product/mynodeshell/)
+
+**NOTE:** If you're getting an LCD screen and a [Crypto Cloaks](https://www.cryptocloaks.com/) node shell, make sure the shell supports the LCD screen.
+
 ## OS
 
 We need an OS, and the best one that I could think of is the official OS developed by the people who make the Raspberry Pi.
