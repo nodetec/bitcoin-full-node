@@ -35,11 +35,46 @@ You can use the Pi same as any other computer, so if you want to just plugin a m
 
 Another option is to ssh into the Pi from another computer. Which is what I will be doing and this tutorial will assume you are doing everything via SSH. You can obviously still easily follow along with your graphical interface by just opening up a terminal.
 
+## SSH into rpi
+
+**prereqs**
+
+- inetutils
+- nmap
+
+From your host computer:
+
+```sh
+$ hostname -i
+192.168.1.102
+```
+
+Now use `nmap` to ping and scan your whole subnet range
+
+*NOTE* (I'm just showing the rpi address you'll likely see many other devices returned)
+
+*NOTE* (make sure to run this with sudo to see the associated name)
+
+```sh
+$sudo nmap -sn 192.168.1.0/24
+MAC Address: E4:5F:01:5E:25:72 (Raspberry Pi Trading)
+Nmap scan report for 192.168.1.57
+Host is up (0.00016s latency).
+```
+
+Now you can ssh into your rpi
+
+*NOTE* (make sure to change `pi` to whatever your username is)
+
+```sh
+ssh pi@192.168.1.57
+```
+
 ## Format external Drive
 
 To find the drive enter the following:
 
-```
+```sh
 sudo fdisk -l
 ```
 
